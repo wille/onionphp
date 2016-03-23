@@ -3,6 +3,10 @@
 class Relay {
       public $nick;
       public $fingerprint;
+      public $or_addresses;
+      public $dir_address;
+      public $running;
+      public $flags;
 }
 
 class Relays {
@@ -25,6 +29,10 @@ class Relays {
 
                   $relay = new Relay();
                   $relay->nick = $data["nickname"];
+                  $relay->or_addresses = $data["or_addresses"];
+                  $relay->dir_address = $data["dir_address"];
+                  $relay->running = $data["running"] == "true";
+                  $relay->flags = $data["flags"];
 
                   $relays[] = $relay;
             }
