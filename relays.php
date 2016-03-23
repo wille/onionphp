@@ -1,5 +1,7 @@
 <?php
 
+require_once "awards/awards.php";
+
 class Relay {
       public $nick;
       public $fingerprint;
@@ -7,6 +9,8 @@ class Relay {
       public $dir_address;
       public $running;
       public $flags;
+      public $platform;
+      public $awards;
 }
 
 class Relays {
@@ -29,10 +33,21 @@ class Relays {
 
                   $relay = new Relay();
                   $relay->nick = $data["nickname"];
+                  $relay->fingerprint = $data["fingerprint"];
                   $relay->or_addresses = $data["or_addresses"];
                   $relay->dir_address = $data["dir_address"];
                   $relay->running = $data["running"] == "true";
                   $relay->flags = $data["flags"];
+                  $relay->platform = $data["platform"];
+                  $relay->awards = array();
+
+                  global $awards;
+
+                  foreach ($awards as $award) {
+                        if ($award->is_granted($relay)) {
+                              $relay->awards[] = $award;
+                        }
+                  }
 
                   $relays[] = $relay;
             }
