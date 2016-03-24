@@ -10,7 +10,6 @@ class Relay {
       public $running;
       public $flags;
       public $platform;
-      public $awards;
 }
 
 class Relays {
@@ -39,15 +38,6 @@ class Relays {
                   $relay->running = $data["running"] == "true";
                   $relay->flags = $data["flags"];
                   $relay->platform = $data["platform"];
-                  $relay->awards = array();
-
-                  global $awards;
-
-                  foreach ($awards as $award) {
-                        if ($award->is_granted($relay)) {
-                              $relay->awards[] = $award;
-                        }
-                  }
 
                   $relays[] = $relay;
             }
