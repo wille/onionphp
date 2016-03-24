@@ -1,7 +1,5 @@
 <?php
 
-require_once "awards/awards.php";
-
 class Relay {
       public $nick;
       public $fingerprint;
@@ -10,6 +8,8 @@ class Relay {
       public $running;
       public $flags;
       public $platform;
+      public $country;
+      public $country_name;
 }
 
 class Relays {
@@ -38,6 +38,8 @@ class Relays {
                   $relay->running = $data["running"] == "true";
                   $relay->flags = $data["flags"];
                   $relay->platform = $data["platform"];
+                  $relay->country = $data["country"];
+                  $relay->country_name = $data["country_name"];
 
                   $relays[] = $relay;
             }
