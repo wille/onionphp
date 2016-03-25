@@ -10,6 +10,27 @@ class Relay {
       public $platform;
       public $country;
       public $country_name;
+      public $last_restarted;
+      public $last_seen;
+
+      public function is_running() {
+            return $this->running;
+      }
+
+      public function get_uptime() {
+            $value = new DateTime($this->is_running() ? $this->last_restarted : $this->last_seen);
+            $now = new DateTime();
+
+            $result = $now->diff($value)->format("%d days %H hours");
+
+            if ($result == "0 days 00 hours") {
+                  return "n/a";
+            } else {
+                  $result = $this->is_running() ? "Up for " . $result : "Down for " . $result;
+                  
+                  return $result;
+            }
+      }
 }
 
 class Relays {
@@ -40,6 +61,8 @@ class Relays {
                   $relay->platform = $data["platform"];
                   $relay->country = $data["country"];
                   $relay->country_name = $data["country_name"];
+                  $relay->last_restarted = $data["last_restarted"];
+                  $relay->last_seen = $data["last_seen"];
 
                   $relays[] = $relay;
             }
