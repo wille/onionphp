@@ -1,5 +1,7 @@
 <?php
 
+include_once "utils.php";
+
 class Relay {
       public $nick;
       public $fingerprint;
@@ -12,6 +14,7 @@ class Relay {
       public $country_name;
       public $last_restarted;
       public $last_seen;
+      public $bandwidth;
 
       public function is_running() {
             return $this->running;
@@ -21,15 +24,21 @@ class Relay {
             $value = new DateTime($this->is_running() ? $this->last_restarted : $this->last_seen);
             $now = new DateTime();
 
-            $result = $now->diff($value)->format("%d days %H hours");
+            $days = $now->diff($value)->format("%a");
+            $hours = $now->diff($value)->format("%H");
 
-            if ($result == "0 days 00 hours") {
-                  return "n/a";
-            } else {
-                  $result = $this->is_running() ? "Up for " . $result : "Down for " . $result;
-                  
-                  return $result;
+            if ($days == "0" && $hours == "00") {
+                  return false;
             }
+
+            return [
+                  "days" => $days,
+                  "hours" => $hours
+            ];
+      }
+
+      public function get_current_bandwidth() {
+            return data_display_str($this->bandwidth) . "/s";
       }
 }
 
@@ -63,6 +72,7 @@ class Relays {
                   $relay->country_name = $data["country_name"];
                   $relay->last_restarted = $data["last_restarted"];
                   $relay->last_seen = $data["last_seen"];
+                  $relay->bandwidth = $data["observed_bandwidth"];
 
                   $relays[] = $relay;
             }
