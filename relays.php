@@ -15,6 +15,10 @@ class Relay {
       public $last_restarted;
       public $last_seen;
       public $bandwidth;
+      public $consensus_weight_fraction;
+      public $guard_probability;
+      public $middle_probability;
+      public $exit_probability;
 
       public function is_running() {
             return $this->running;
@@ -73,6 +77,10 @@ class Relays {
                   $relay->last_restarted = $data["last_restarted"];
                   $relay->last_seen = $data["last_seen"];
                   $relay->bandwidth = $data["observed_bandwidth"];
+                  $relay->consensus_weight_fraction = $data["consensus_weight_fraction"];
+                  $relay->guard_probability = $data["guard_probability"];
+                  $relay->middle_probability = $data["middle_probability"];
+                  $relay->exit_probability = $data["exit_probability"];
 
                   $relays[] = $relay;
             }
