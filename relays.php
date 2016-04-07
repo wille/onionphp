@@ -7,6 +7,7 @@ class Relay {
       public $fingerprint;
       public $or_addresses;
       public $dir_address;
+      public $contact;
       public $running;
       public $flags;
       public $platform;
@@ -69,6 +70,7 @@ class Relays {
                   $relay->fingerprint = $data["fingerprint"];
                   $relay->or_addresses = $data["or_addresses"];
                   $relay->dir_address = $data["dir_address"];
+                  $relay->contact = $data["contact"];
                   $relay->running = $data["running"] == "true";
                   $relay->flags = $data["flags"];
                   $relay->platform = $data["platform"];
