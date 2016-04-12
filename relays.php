@@ -49,14 +49,22 @@ class Relay {
 
 class Relays {
 
-      public static function query_relays($search) {
-            $url = "https://onionoo.torproject.org/details?search=" . htmlspecialchars($search);
+      public static function query_relays($search, $cache = false) {
+            $raw = null;
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_URL, $url);
-            $raw = curl_exec($ch);
-            curl_close($ch);
+            if ($cache && file_exists("data.json")) {
+                  $raw = file_get_contents("data.json");
+            } else {
+                  $url = "https://onionoo.torproject.org/details";
+
+                  $ch = curl_init();
+                  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                  curl_setopt($ch, CURLOPT_URL, $url);
+                  $raw = curl_exec($ch);
+                  curl_close($ch);
+
+                  file_put_contents("data.json", $raw);
+            }
 
             $json = json_decode($raw, true);
 
@@ -68,23 +76,28 @@ class Relays {
                   $relay = new Relay();
                   $relay->nick = $data["nickname"];
                   $relay->fingerprint = $data["fingerprint"];
-                  $relay->or_addresses = $data["or_addresses"];
-                  $relay->dir_address = $data["dir_address"];
-                  $relay->contact = $data["contact"];
-                  $relay->running = $data["running"] == "true";
-                  $relay->flags = $data["flags"];
-                  $relay->platform = $data["platform"];
-                  $relay->country = $data["country"];
-                  $relay->country_name = $data["country_name"];
-                  $relay->last_restarted = $data["last_restarted"];
-                  $relay->last_seen = $data["last_seen"];
-                  $relay->bandwidth = $data["observed_bandwidth"];
-                  $relay->consensus_weight_fraction = $data["consensus_weight_fraction"];
-                  $relay->guard_probability = $data["guard_probability"];
-                  $relay->middle_probability = $data["middle_probability"];
-                  $relay->exit_probability = $data["exit_probability"];
 
-                  $relays[] = $relay;
+                  if (strlen($search) == 0 || (strpos($relay->nick, $search) !== false || strpos($relay->fingerprint, $search) !== false)) {
+                        $relay->or_addresses = $data["or_addresses"];
+                        $relay->dir_address = $data["dir_address"];
+                        $relay->contact = $data["contact"];
+                        $relay->running = $data["running"] == "true";
+                        $relay->flags = $data["flags"];
+                        $relay->platform = $data["platform"];
+                        $relay->country = $data["country"];
+                        $relay->country_name = $data["country_name"];
+                        $relay->last_restarted = $data["last_restarted"];
+                        $relay->last_seen = $data["last_seen"];
+                        $relay->bandwidth = $data["observed_bandwidth"];
+                        $relay->consensus_weight_fraction = $data["consensus_weight_fraction"];
+                        $relay->guard_probability = $data["guard_probability"];
+                        $relay->middle_probability = $data["middle_probability"];
+                        $relay->exit_probability = $data["exit_probability"];
+
+                        $relays[] = $relay;
+                  } else {
+                        unset($relay);
+                  }
             }
 
             return $relays;
