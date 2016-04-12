@@ -63,7 +63,7 @@ class Relays {
                   $raw = curl_exec($ch);
                   curl_close($ch);
 
-                  file_put_contents("data.json", $raw);
+                  @file_put_contents("data.json", $raw);
             }
 
             $json = json_decode($raw, true);
