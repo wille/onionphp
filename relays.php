@@ -55,7 +55,7 @@ class Relays {
             if ($cache && file_exists("data.json")) {
                   $raw = file_get_contents("data.json");
             } else {
-                  $url = "https://onionoo.torproject.org/details";
+                  $url = "https://onionoo.torproject.org/details?search=" . htmlspecialchars($search);
 
                   $ch = curl_init();
                   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -77,7 +77,7 @@ class Relays {
                   $relay->nick = $data["nickname"];
                   $relay->fingerprint = $data["fingerprint"];
 
-                  if (strlen($search) == 0 || (strpos($relay->nick, $search) !== false || strpos($relay->fingerprint, $search) !== false)) {
+                  if (strlen($search) == 0 || (strpos(strtolower($relay->nick), strtolower($search)) !== false || strpos(strtolower($relay->fingerprint), strtolower($search)) !== false)) {
                         $relay->or_addresses = $data["or_addresses"];
                         $relay->dir_address = $data["dir_address"];
                         $relay->contact = $data["contact"];
