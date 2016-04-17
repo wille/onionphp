@@ -51,6 +51,7 @@ class Relays {
 
       public static function query_relays($search, $cache = false) {
             $raw = null;
+            ini_set('memory_limit', '-1');
 
             if ($cache && file_exists("data.json")) {
                   $raw = file_get_contents("data.json");
