@@ -56,7 +56,7 @@ class Relays {
             if ($cache && file_exists("data.json")) {
                   $raw = file_get_contents("data.json");
             } else {
-                  $url = "https://onionoo.torproject.org/details?search=" . htmlspecialchars($search);
+                  $url = "https://onionoo.torproject.org/details";
 
                   $ch = curl_init();
                   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
