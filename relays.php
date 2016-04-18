@@ -50,23 +50,14 @@ class Relay {
 
 class Relays {
 
-      public static function query_relays($search, $cache = false) {
-            $raw = null;
-            ini_set('memory_limit', '-1');
+      public static function query_relays($search) {
+            $url = "https://onionoo.torproject.org/details?search=" . $search;
 
-            if ($cache && file_exists("data.json")) {
-                  $raw = file_get_contents("data.json");
-            } else {
-                  $url = "https://onionoo.torproject.org/details";
-
-                  $ch = curl_init();
-                  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                  curl_setopt($ch, CURLOPT_URL, $url);
-                  $raw = curl_exec($ch);
-                  curl_close($ch);
-
-                  @file_put_contents("data.json", $raw);
-            }
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            $raw = curl_exec($ch);
+            curl_close($ch);
 
             $json = json_decode($raw, true);
 
