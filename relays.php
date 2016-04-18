@@ -20,6 +20,7 @@ class Relay {
       public $guard_probability;
       public $middle_probability;
       public $exit_probability;
+      public $data = [];
 
       public function is_running() {
             return $this->running;
