@@ -82,10 +82,10 @@ class Relays {
                         $relay->last_restarted = $data["last_restarted"];
                         $relay->last_seen = $data["last_seen"];
                         $relay->bandwidth = $data["observed_bandwidth"];
-                        $relay->consensus_weight_fraction = $data["consensus_weight_fraction"];
-                        $relay->guard_probability = $data["guard_probability"];
-                        $relay->middle_probability = $data["middle_probability"];
-                        $relay->exit_probability = $data["exit_probability"];
+                        $relay->consensus_weight_fraction = $data["consensus_weight_fraction"] * 100;
+                        $relay->guard_probability = $data["guard_probability"] * 100;
+                        $relay->middle_probability = $data["middle_probability"] * 100;
+                        $relay->exit_probability = $data["exit_probability"] * 100;
 
                         $relays[] = $relay;
                   } else {
