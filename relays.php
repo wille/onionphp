@@ -48,6 +48,10 @@ class Relay {
       }
 }
 
+function get($data, $key) {
+      return isset($data[$key]) ? $data[$key] : null;
+}
+
 class Relays {
 
       public static function query_relays($search) {
@@ -62,11 +66,7 @@ class Relays {
             $json = json_decode($raw, true);
 
             $relays = array();
-
-            function get($data, $key) {
-                  return isset($data[$key]) ? $data[$key] : null;
-            }
-
+            
             for ($i = 0; $i < count($json["relays"]); $i++) {
                   $data = $json["relays"][$i];
 
