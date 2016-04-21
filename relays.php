@@ -20,6 +20,9 @@ class Relay {
       public $guard_probability;
       public $middle_probability;
       public $exit_probability;
+      public $effective_family;
+      public $alleged_family;
+      public $indirect_family;
       public $data = [];
 
       public function is_running() {
@@ -66,7 +69,7 @@ class Relays {
             $json = json_decode($raw, true);
 
             $relays = array();
-            
+
             for ($i = 0; $i < count($json["relays"]); $i++) {
                   $data = $json["relays"][$i];
 
@@ -92,6 +95,9 @@ class Relays {
                         $relay->guard_probability = get($data, "guard_probability"); // Omitted if the relay is not running, or the consensus does not contain bandwidth weights.
                         $relay->middle_probability = get($data, "middle_probability"); // Omitted if the relay is not running, or the consensus does not contain bandwidth weights.
                         $relay->exit_probability = get($data, "exit_probability"); // Omitted if the relay is not running, or the consensus does not contain bandwidth weights.
+                        $relay->effective_family = get($data, "effective_family"); // Omitted if empty or if descriptor containing this information cannot be found.
+                        $relay->alleged_family = get($data, "alleged_family"); // Omitted if empty or if descriptor containing this information cannot be found.
+                        $relay->indirect_family = get($data, "indirect_family"); // Omitted if empty or if descriptor containing this information cannot be found.
 
                         $relays[] = $relay;
                   } else {
