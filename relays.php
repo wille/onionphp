@@ -57,7 +57,7 @@ function get($data, $key) {
 
 class Relays {
 
-      public static function query_relays($search) {
+      public static function query_relays($search = "") {
             $url = "https://onionoo.torproject.org/details" . (strlen($search) == 0 ? "" : "?search=" . $search);
 
             $ch = curl_init();
